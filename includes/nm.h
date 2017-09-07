@@ -25,6 +25,7 @@ void close_binary(t_bin *bin);
 int open_binary(char *filename, t_bin *bin);
 void rewind(t_bin *, size_t len);
 void display_symbol_64(t_bin* bin);
+void display_symbol(t_bin* bin);
 void check_commands(t_bin* bin, size_t size, int cpu);
 void rewind(t_bin *bin, size_t len);
 int get_data(void *ad, t_bin *bin, size_t len, size_t offset);
