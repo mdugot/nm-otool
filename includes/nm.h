@@ -9,11 +9,6 @@
 # include "libft.h"
 # define BYTE unsigned char
 
-typedef enum	e_endian
-{
-	BIG, LITTLE
-}				t_endian;
-
 typedef struct	s_bin
 {
 	char		*filename;
@@ -21,7 +16,6 @@ typedef struct	s_bin
 	BYTE*		begin;
 	BYTE*		cursor;
 	size_t		len;
-	t_endian	endian;
 }				t_bin;
 
 int is_macho_64(t_bin *bin);
@@ -29,12 +23,12 @@ int is_macho_32(t_bin *bin);
 int check_magic_number(t_bin *bin, unsigned int magic);
 void close_binary(t_bin *bin);
 int open_binary(char *filename, t_bin *bin);
-int dump_data(t_bin *bin, void *dest, size_t len);
 void rewind(t_bin *, size_t len);
 void display_symbol_64(t_bin* bin);
 void check_commands(t_bin* bin, size_t size, int cpu);
 void rewind(t_bin *bin, size_t len);
-int cp_data(t_bin *bin, void *ad, size_t len, size_t offset);
-int rcp_data(t_bin *bin, BYTE *dest, size_t len, BYTE *cursor);
+int get_data(void *ad, t_bin *bin, size_t len, size_t offset);
+int dump_data(void *ad, t_bin *bin, size_t len);
+int get_str(void *ad, t_bin *bin, size_t offset);
 
 #endif

@@ -28,7 +28,6 @@ int open_binary(char *filename, t_bin *bin)
 		ft_printf_fd(2, "memory map of file '%s' failed\n", filename);
 		return 0;
 	}
-	bin->endian = BIG;
 	bin->cursor = bin->begin;
 	return 1;
 }
@@ -38,86 +37,54 @@ void close_binary(t_bin *bin)
 	munmap(bin->begin, bin->len);
 }
 
-int rdump_data(t_bin *bin, BYTE *dest, size_t len)
+int dump_data(void *ad, t_bin *bin, size_t len)
 {
-	size_t i;
-	i = 0;
-	while (i < len)
-	{
-		dest[len - 1 - i] = *(bin->cursor);
-		bin->cursor += 1;
-		i++;
-	}
-	return 1;
-}
+	void **dest;
 
-int dump_data(t_bin *bin, void *ad, size_t len)
-{
-	size_t i;
-	BYTE *dest;
-
-	dest = (BYTE*)ad;
+	dest = ad;
 	if (bin->cursor + len > bin->begin + bin->len)
 		return 0;
-	if (bin->endian == LITTLE && dest)
-		return rdump_data(bin, dest, len);
-	i = 0;
-	while (i < len)
-	{
-		if (dest)
-			dest[i] = *(bin->cursor);
-		bin->cursor += 1;
-		i++;
-	}
+	if (ad)
+		*dest = (void*)bin->cursor;
+	bin->cursor += len;
 	return 1;
 }
 
-int rcp_data(t_bin *bin, BYTE *dest, size_t len, BYTE *cursor)
+int get_str(void *ad, t_bin *bin, size_t offset)
 {
+	void **dest;
+	char *test;
 	size_t i;
 
-	i = 0;
-	cursor = bin->cursor;
-	while (i < len)
-	{
-		dest[len - 1 - i] = *cursor;
-		cursor += 1;
-		i++;
-	}
-	return 1;
-}
-
-int cp_data(t_bin *bin, void *ad, size_t len, size_t offset)
-{
-	size_t i;
-	BYTE *dest;
-	BYTE *cursor;
-
-	dest = (BYTE*)ad;
-	if (len + offset > (size_t)(bin->begin + bin->len))
+	dest = ad;
+	if (offset >= bin->len)
 		return 0;
-	cursor = bin->begin + offset;
-	if (bin->endian == LITTLE && dest)
-		return rcp_data(bin, dest, len, cursor);
+	if (ad)
+		*dest = (void*)(bin->begin + offset);
+	test = *dest;
 	i = 0;
-	while (i < len)
+	while (test[i])
 	{
-		if (dest)
-			dest[i] = *cursor;
-		cursor += 1;
 		i++;
+		if (offset + i >= bin->len)
+			return 0;
 	}
+	return 1;
+}
+
+int get_data(void *ad, t_bin *bin, size_t len, size_t offset)
+{
+	void **dest;
+
+	dest = ad;
+	if (!len || len + offset >bin->len)
+		return 0;
+	if (ad)
+		*dest = (void*)(bin->begin + offset);
 	return 1;
 }
 
 void rewind(t_bin *bin, size_t len)
 {
-	size_t i;
-
-	i = 0;
-	while (i < len)
-	{
-		bin->cursor -= 1;
-		i++;
-	}
+	bin->cursor -= len;
 }
