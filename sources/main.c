@@ -1,10 +1,20 @@
-#include <unistd.h>
-#include "libft.h"
+#include "nm.h"
 
 void display_name_list(char *filename, int *result)
 {
-	(void)result;
-	ft_printf("#R%s#N\n", filename);
+	t_bin bin;
+
+	if (!open_binary(filename, &bin))
+	{
+		*result = 1;
+		return;
+	}
+	if (is_macho_32(&bin))
+		return ;
+	if (is_macho_64(&bin))
+		return ;
+	ft_printf_fd(2, "ft_nm: %s: The file was not recognized as a valid object file.\n", filename);
+	*result = 1;
 }
 
 int main(int argc, char **argv)
