@@ -1,7 +1,7 @@
 NAME= ft_nm
 CC= gcc
 CFLAGS= -Wall -Werror -Wextra
-SRC_NAME= main.c macho.c magic.c binary.c command.c symtab.c
+SRC_NAME= main.c macho.c magic.c binary.c command.c symtab.c type.c
 SRC_PATH= ./sources/
 INC_PATH= ./includes/
 LIB_NAME= libft.a

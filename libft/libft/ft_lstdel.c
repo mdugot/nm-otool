@@ -22,3 +22,13 @@ void	ft_lstdel(t_list **alst, void (*del)(void*, size_t))
 		ft_lstdel(&((*alst)->next), del);
 	ft_lstdelone(alst, del);
 }
+
+void	ft_lstfree(t_list **alst)
+{
+	if (alst == NULL || *alst == NULL)
+		return ;
+	if ((*alst)->next != NULL)
+		ft_lstfree(&((*alst)->next));
+	if ((*alst)->content != NULL)
+		ft_memdel(&(*alst)->content);
+}

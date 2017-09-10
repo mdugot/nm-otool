@@ -16,7 +16,10 @@ void display_symbol(t_bin* bin)
 			return ;
 //		str = (void*)bin->begin + sc->stroff + nl->n_un.n_strx;
 		if (get_str(&str, bin, sc->stroff + nl->n_un.n_strx)) 
+		{
+			display_type(nl->n_type, nl->n_sect);
 			ft_printf("%s\n", str);
+		}
 		i++;
 	}
 }
@@ -37,7 +40,10 @@ void display_symbol_64(t_bin* bin)
 			return ;
 //		str = (void*)bin->begin + sc->stroff + nl->n_un.n_strx;
 		if (get_str(&str, bin, sc->stroff + nl->n_un.n_strx)) 
+		{
+			display_type(nl->n_type, nl->n_sect);
 			ft_printf("%s\n", str);
+		}
 		i++;
 	}
 }

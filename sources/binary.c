@@ -88,3 +88,18 @@ void rewind(t_bin *bin, size_t len)
 {
 	bin->cursor -= len;
 }
+
+t_bin *sub_bin(t_bin *bin, size_t len)
+{
+	t_bin *sub;
+
+	if (bin->cursor + len > bin->begin + bin->len)
+		return NULL;
+	sub = ft_memalloc(sizeof(t_bin));
+	sub->filename = NULL;
+	sub->fd = -1;
+	sub->begin = bin->cursor;
+	sub->cursor = sub->begin;
+	sub->len = len;
+	return sub;
+}
