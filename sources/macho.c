@@ -15,7 +15,7 @@ int is_macho_32(t_bin *bin)
 		if (!cmds)
 			return 0;
 		sections = save_usections(cmds);
-		check_commands(cmds, 32);
+		check_commands(cmds, 32, bin);
 		ft_lstfree(&cmds);
 		ft_lstfree(&sections);
 		return 1;
@@ -38,7 +38,7 @@ int is_macho_64(t_bin *bin)
 		if (!cmds)
 			return 0;
 		sections = save_usections(cmds);
-		check_commands(cmds, 64);
+		check_commands(cmds, 64, bin);
 		ft_lstfree(&cmds);
 		ft_lstfree(&sections);
 		return 1;

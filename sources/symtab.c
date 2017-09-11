@@ -1,13 +1,13 @@
 #include "nm.h"
 
-void display_symbol(t_bin* bin)
+void display_symbol(t_bin* cmd, t_bin *bin)
 {
 	struct symtab_command *sc;
 	struct nlist *nl;
 	char *str;
 	size_t i;
 
-	if (!dump_data(&sc, bin, sizeof(struct symtab_command)))
+	if (!dump_data(&sc, cmd, sizeof(struct symtab_command)))
 		return ;
 	i = 0;
 	while (i < sc->nsyms)
@@ -24,18 +24,19 @@ void display_symbol(t_bin* bin)
 	}
 }
 
-void display_symbol_64(t_bin* bin)
+void display_symbol_64(t_bin* cmd, t_bin *bin)
 {
 	struct symtab_command *sc;
 	struct nlist_64 *nl;
 	char *str;
 	size_t i;
 
-	if (!dump_data(&sc, bin, sizeof(struct symtab_command)))
+	if (!dump_data(&sc, cmd, sizeof(struct symtab_command)))
 		return ;
 	i = 0;
 	while (i < sc->nsyms)
 	{
+		ft_printf("display symbol\n");
 		if (!get_data(&nl, bin, sizeof(struct nlist_64), sc->symoff + i * sizeof(struct nlist_64)))
 			return ;
 //		str = (void*)bin->begin + sc->stroff + nl->n_un.n_strx;

@@ -86,21 +86,22 @@ t_list *save_usections(t_list *cmd)
 	return result;
 }
 
-void check_commands(t_list *cmd, int cpu)
+void check_commands(t_list *cmd, int cpu, t_bin *bin)
 {
 	struct load_command *lc;
-	t_bin *bin;
+	t_bin *sbin;
 
 	while (cmd)
 	{
-		bin = (t_bin*)cmd->content;
-		lc = (struct load_command*)bin->begin;
+		ft_printf("check command\n");
+		sbin = (t_bin*)cmd->content;
+		lc = (struct load_command*)sbin->begin;
 //		ft_printf("command size: %llu.\n", lc->cmdsize);
 //		ft_printf("command type: %#llx.\n", lc->cmd);
 		if (lc->cmd == LC_SYMTAB && cpu == 64)
-			display_symbol_64((t_bin*)cmd->content);
+			display_symbol_64((t_bin*)cmd->content, bin);
 		else if (lc->cmd == LC_SYMTAB && cpu == 32)
-			display_symbol((t_bin*)cmd->content);
+			display_symbol((t_bin*)cmd->content, bin);
 		cmd = cmd->next;
 	}
 }

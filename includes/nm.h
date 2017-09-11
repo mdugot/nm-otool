@@ -30,8 +30,8 @@ int check_magic_number(t_bin *bin, unsigned int magic);
 void close_binary(t_bin *bin);
 int open_binary(char *filename, t_bin *bin);
 void rewind(t_bin *, size_t len);
-void display_symbol_64(t_bin* bin);
-void display_symbol(t_bin* bin);
+void display_symbol_64(t_bin* cmd, t_bin* bin);
+void display_symbol(t_bin* cmd, t_bin* bin);
 void rewind(t_bin *bin, size_t len);
 int get_data(void *ad, t_bin *bin, size_t len, size_t offset);
 int dump_data(void *ad, t_bin *bin, size_t len);
@@ -40,6 +40,6 @@ void display_type(BYTE type, BYTE n_sect);
 t_list *save_usections(t_list *cmd);
 t_list *save_commands(t_bin* bin, size_t size);
 t_bin *sub_bin(t_bin *bin, size_t len);
-void check_commands(t_list *cmd, int cpu);
+void check_commands(t_list *cmd, int cpu, t_bin *bin);
 
 #endif
