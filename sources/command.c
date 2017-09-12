@@ -18,7 +18,7 @@ void save_segment_64(t_bin *bin, struct load_command *lc, t_list **result)
 	t_list *tmp;
 
 	(void)lc;
-	ft_printf("there is a segment 64\n");
+//	ft_printf("there is a segment 64\n");
 	if (!dump_data(&seg, bin, sizeof(struct segment_command_64)))
 		return ;
 	i = 0;
@@ -27,7 +27,7 @@ void save_segment_64(t_bin *bin, struct load_command *lc, t_list **result)
 		if (!dump_data(&sect, bin, sizeof(struct section_64)))
 			return ;
 		tmp = ft_lstnew_noalloc(new_usection(sect, 64), sizeof(t_usection));
-		ft_lstadd(result, tmp);
+		ft_lstadd_end(result, tmp);
 		i++;
 	}
 }
@@ -59,7 +59,7 @@ t_list *save_commands(t_bin* bin, size_t size)
 		if (!sub)
 			return result;
 		tmp = ft_lstnew_noalloc(sub, sizeof(t_bin));
-		ft_lstadd(&result, tmp);
+		ft_lstadd_end(&result, tmp);
 		i += lc->cmdsize;
 		dump_data(NULL, bin, lc->cmdsize);
 	}
@@ -86,22 +86,22 @@ t_list *save_usections(t_list *cmd)
 	return result;
 }
 
-void check_commands(t_list *cmd, int cpu, t_bin *bin)
+void check_commands(t_list *cmd, t_list *section, int cpu, t_bin *bin)
 {
 	struct load_command *lc;
 	t_bin *sbin;
 
 	while (cmd)
 	{
-		ft_printf("check command\n");
+//		ft_printf("check command\n");
 		sbin = (t_bin*)cmd->content;
 		lc = (struct load_command*)sbin->begin;
 //		ft_printf("command size: %llu.\n", lc->cmdsize);
 //		ft_printf("command type: %#llx.\n", lc->cmd);
 		if (lc->cmd == LC_SYMTAB && cpu == 64)
-			display_symbol_64((t_bin*)cmd->content, bin);
+			display_symbol_64((t_bin*)cmd->content, bin, section);
 		else if (lc->cmd == LC_SYMTAB && cpu == 32)
-			display_symbol((t_bin*)cmd->content, bin);
+			display_symbol((t_bin*)cmd->content, bin, section);
 		cmd = cmd->next;
 	}
 }

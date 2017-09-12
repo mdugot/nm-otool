@@ -1,6 +1,6 @@
 #include "nm.h"
 
-void display_symbol(t_bin* cmd, t_bin *bin)
+void display_symbol(t_bin* cmd, t_bin *bin, t_list *section)
 {
 	struct symtab_command *sc;
 	struct nlist *nl;
@@ -17,14 +17,14 @@ void display_symbol(t_bin* cmd, t_bin *bin)
 //		str = (void*)bin->begin + sc->stroff + nl->n_un.n_strx;
 		if (get_str(&str, bin, sc->stroff + nl->n_un.n_strx)) 
 		{
-			display_type(nl->n_type, nl->n_sect);
+			display_type(nl->n_type, nl->n_sect, section);
 			ft_printf("%s\n", str);
 		}
 		i++;
 	}
 }
 
-void display_symbol_64(t_bin* cmd, t_bin *bin)
+void display_symbol_64(t_bin* cmd, t_bin *bin, t_list *section)
 {
 	struct symtab_command *sc;
 	struct nlist_64 *nl;
@@ -36,13 +36,13 @@ void display_symbol_64(t_bin* cmd, t_bin *bin)
 	i = 0;
 	while (i < sc->nsyms)
 	{
-		ft_printf("display symbol\n");
+//		ft_printf("display symbol\n");
 		if (!get_data(&nl, bin, sizeof(struct nlist_64), sc->symoff + i * sizeof(struct nlist_64)))
 			return ;
 //		str = (void*)bin->begin + sc->stroff + nl->n_un.n_strx;
 		if (get_str(&str, bin, sc->stroff + nl->n_un.n_strx)) 
 		{
-			display_type(nl->n_type, nl->n_sect);
+			display_type(nl->n_type, nl->n_sect, section);
 			ft_printf("%s\n", str);
 		}
 		i++;
