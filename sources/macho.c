@@ -5,6 +5,7 @@ int is_macho_32(t_bin *bin)
 	struct mach_header *header;
 	t_list *cmds;
 	t_list *sections;
+	t_list *syms;
 
 	if (check_magic_number(bin, MH_MAGIC))
 	{
@@ -15,9 +16,11 @@ int is_macho_32(t_bin *bin)
 		if (!cmds)
 			return 0;
 		sections = save_usections(cmds);
-		check_commands(cmds, sections, 32, bin);
+		syms = save_all_symbol(cmds, 32, bin);
+		display_all(syms, sections);
 		ft_lstfree(&cmds);
 		ft_lstfree(&sections);
+		ft_lstfree(&syms);
 		return 1;
 	}
 	return 0;
@@ -28,6 +31,7 @@ int is_macho_64(t_bin *bin)
 	struct mach_header_64 *header;
 	t_list *cmds;
 	t_list *sections;
+	t_list *syms;
 
 	if (check_magic_number(bin, MH_MAGIC_64))
 	{
@@ -38,9 +42,11 @@ int is_macho_64(t_bin *bin)
 		if (!cmds)
 			return 0;
 		sections = save_usections(cmds);
-		check_commands(cmds, sections, 64, bin);
+		syms = save_all_symbol(cmds, 64, bin);
+		display_all(syms, sections);
 		ft_lstfree(&cmds);
 		ft_lstfree(&sections);
+		ft_lstfree(&syms);
 		return 1;
 	}
 	return 0;

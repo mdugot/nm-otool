@@ -24,14 +24,23 @@ typedef struct	s_usection
 	int			cpu;
 }				t_usection;
 
+typedef struct	s_usym
+{
+	uint32_t	value;
+	BYTE		type;
+	BYTE		sect;
+	char*		str;
+	
+}				t_usym;
+
 int is_macho_64(t_bin *bin);
 int is_macho_32(t_bin *bin);
 int check_magic_number(t_bin *bin, unsigned int magic);
 void close_binary(t_bin *bin);
 int open_binary(char *filename, t_bin *bin);
 void rewind(t_bin *, size_t len);
-void display_symbol_64(t_bin* cmd, t_bin* bin, t_list *section);
-void display_symbol(t_bin* cmd, t_bin* bin, t_list *section);
+void save_symbol_64(t_bin* cmd, t_bin* bin, t_list **syms);
+void save_symbol(t_bin* cmd, t_bin* bin, t_list **syms);
 void rewind(t_bin *bin, size_t len);
 int get_data(void *ad, t_bin *bin, size_t len, size_t offset);
 int dump_data(void *ad, t_bin *bin, size_t len);
@@ -40,8 +49,9 @@ void display_type(BYTE type, BYTE n_sect, t_list *section);
 t_list *save_usections(t_list *cmd);
 t_list *save_commands(t_bin* bin, size_t size);
 t_bin *sub_bin(t_bin *bin, size_t len);
-void check_commands(t_list *cmd, t_list *section, int cpu, t_bin *bin);
+t_list *save_all_symbol(t_list *cmd, int cpu, t_bin *bin);
 void print_type_letter(char c, BYTE ext);
 void print_section(BYTE sect, BYTE ext, t_list *section);
+void display_all(t_list *sym, t_list *section);
 
 #endif

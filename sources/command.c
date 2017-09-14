@@ -1,5 +1,6 @@
 #include "nm.h"
 
+
 t_usection	*new_usection(void *sec, int cpu)
 {
 	t_usection	*section;
@@ -86,11 +87,13 @@ t_list *save_usections(t_list *cmd)
 	return result;
 }
 
-void check_commands(t_list *cmd, t_list *section, int cpu, t_bin *bin)
+t_list *save_all_symbol(t_list *cmd, int cpu, t_bin *bin)
 {
 	struct load_command *lc;
 	t_bin *sbin;
+	t_list *syms;
 
+	syms = NULL;
 	while (cmd)
 	{
 //		ft_printf("check command\n");
@@ -99,9 +102,10 @@ void check_commands(t_list *cmd, t_list *section, int cpu, t_bin *bin)
 //		ft_printf("command size: %llu.\n", lc->cmdsize);
 //		ft_printf("command type: %#llx.\n", lc->cmd);
 		if (lc->cmd == LC_SYMTAB && cpu == 64)
-			display_symbol_64((t_bin*)cmd->content, bin, section);
+			save_symbol_64((t_bin*)cmd->content, bin, &syms);
 		else if (lc->cmd == LC_SYMTAB && cpu == 32)
-			display_symbol((t_bin*)cmd->content, bin, section);
+			save_symbol((t_bin*)cmd->content, bin, &syms);
 		cmd = cmd->next;
 	}
+	return syms;
 }
