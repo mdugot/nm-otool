@@ -4,13 +4,17 @@ int		cmp_sym(void *a1, void *a2)
 {
 	t_usym*	s1;
 	t_usym*	s2;
+	int r;
 
 	s1 = (t_usym*)a1;
 	s2 = (t_usym*)a2;
-	return (ft_strcmp(s1->str, s2->str));
+	r = ft_strcmp(s1->str, s2->str);
+	if (r)
+		return r;
+	return s1->value > s2->value;
 }
 
-void	add_sym(uint32_t value, BYTE type, BYTE sect, char* str, t_list **list)
+void	add_sym(uint64_t value, BYTE type, BYTE sect, char* str, t_list **list)
 {
 	t_usym*	newsym;
 	t_list*	tmp;

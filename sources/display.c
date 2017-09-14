@@ -10,6 +10,8 @@ void display_value(unsigned long long ad)
 
 void display_symbol(t_usym *sym, t_list *section)
 {
+	if (is_debugging(sym->type))
+		return ;
 	display_value(sym->value);
 	display_type(sym->type, sym->sect, section);
 	ft_printf("%s\n", sym->str);

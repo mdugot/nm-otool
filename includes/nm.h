@@ -26,7 +26,7 @@ typedef struct	s_usection
 
 typedef struct	s_usym
 {
-	uint32_t	value;
+	uint64_t	value;
 	BYTE		type;
 	BYTE		sect;
 	char*		str;
@@ -53,5 +53,6 @@ t_list *save_all_symbol(t_list *cmd, int cpu, t_bin *bin);
 void print_type_letter(char c, BYTE ext);
 void print_section(BYTE sect, BYTE ext, t_list *section);
 void display_all(t_list *sym, t_list *section);
+int is_debugging(BYTE n_type);
 
 #endif

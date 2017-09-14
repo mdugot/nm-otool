@@ -22,13 +22,18 @@ void display_type(BYTE n_type, BYTE n_sect, t_list *section)
 //	ft_printf("type %#hhx sect %#hhx\n", n_type, n_sect);
 //	ft_printf("STAB %#hhx PEXT %#hhx TYPE %#hhx EXT %#hhx\n", stab, pext, type, ext);
 	
-	if (type == N_ABS)
+	if ((type & N_TYPE) == N_ABS)
 		print_type_letter('a', ext);
-	else if (type == N_SECT)
+	else if ((type & N_TYPE) == N_SECT)
 		print_section(n_sect, ext, section);
-	else if (type == N_UNDF)
+	else if ((type & N_TYPE) == N_UNDF)
 		print_type_letter('u', ext);
 	else
 		print_type_letter('?', ext);
 	
+}
+
+int is_debugging(BYTE n_type)
+{
+	return (n_type & N_STAB);
 }

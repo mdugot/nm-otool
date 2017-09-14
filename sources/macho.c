@@ -37,7 +37,7 @@ int is_macho_64(t_bin *bin)
 	{
 		if (!dump_data(&header, bin, sizeof(struct mach_header_64)))
 			return 0;
-		ft_printf("ft_nm: %s: 64 bits mach-o.\n", bin->filename);
+//		ft_printf("ft_nm: %s: 64 bits mach-o.\n", bin->filename);
 		cmds = save_commands(bin, header->sizeofcmds);
 		if (!cmds)
 			return 0;
