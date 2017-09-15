@@ -9,9 +9,7 @@ void display_name_list(char *filename, int *result)
 		*result = 1;
 		return;
 	}
-	if (is_macho_32(&bin))
-		return ;
-	if (is_macho_64(&bin))
+	if (magic_start(&bin))
 		return ;
 	ft_printf_fd(2, "ft_nm: %s: The file was not recognized as a valid object file.\n", filename);
 	*result = 1;

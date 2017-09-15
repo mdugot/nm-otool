@@ -20,12 +20,12 @@ void save_segment_64(t_bin *bin, struct load_command *lc, t_list **result)
 
 	(void)lc;
 //	ft_printf("there is a segment 64\n");
-	if (!dump_data(&seg, bin, sizeof(struct segment_command_64)))
+	if (!dump_data(&seg, bin, DESCRIPTION(SEGMENT_COMMAND_64_D)))
 		return ;
 	i = 0;
 	while (i < seg->nsects)
 	{
-		if (!dump_data(&sect, bin, sizeof(struct section_64)))
+		if (!dump_data(&sect, bin, DESCRIPTION(SECTION_64_D)))
 			return ;
 		tmp = ft_lstnew_noalloc(new_usection(sect, 64), sizeof(t_usection));
 		ft_lstadd_end(result, tmp);
@@ -35,10 +35,24 @@ void save_segment_64(t_bin *bin, struct load_command *lc, t_list **result)
 
 void save_segment(t_bin *bin, struct load_command *lc, t_list **result)
 {
+	struct segment_command *seg;
+	struct section *sect;
+	size_t i;
+	t_list *tmp;
+
 	(void)lc;
-	(void)bin;
-	(void)result;
-	ft_printf("there is a segment\n");
+//	ft_printf("there is a segment\n");
+	if (!dump_data(&seg, bin, DESCRIPTION(SEGMENT_COMMAND_D)))
+		return ;
+	i = 0;
+	while (i < seg->nsects)
+	{
+		if (!dump_data(&sect, bin, DESCRIPTION(SECTION_D)))
+			return ;
+		tmp = ft_lstnew_noalloc(new_usection(sect, 32), sizeof(t_usection));
+		ft_lstadd_end(result, tmp);
+		i++;
+	}
 }
 
 t_list *save_commands(t_bin* bin, size_t size)
@@ -53,16 +67,16 @@ t_list *save_commands(t_bin* bin, size_t size)
 	result = NULL;
 	while (i < size) 
 	{
-		if (!dump_data(&lc, bin, sizeof(struct load_command)))
+		if (!dump_data(&lc, bin, DESCRIPTION(LOAD_COMMAND_D)))
 			return result;
-		rewind(bin, sizeof(struct load_command));
+		rewind_bin(bin, sizeof(struct load_command));
 		sub = sub_bin(bin, lc->cmdsize);
 		if (!sub)
 			return result;
 		tmp = ft_lstnew_noalloc(sub, sizeof(t_bin));
 		ft_lstadd_end(&result, tmp);
 		i += lc->cmdsize;
-		dump_data(NULL, bin, lc->cmdsize);
+		dump_data(NULL, bin, (size_t[]){lc->cmdsize, 0});
 	}
 	return result;
 }

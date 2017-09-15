@@ -60,7 +60,7 @@ char	*print_prefix(char *str, char c, t_printer *p, t_value *v)
 		printf_putchar(*str, p->fd, &p->result);
 		str = &str[1];
 	}
-	else if (*str == '0' && ft_strchr("xXbB", str[1]) && SPEC != 's')
+	else if (*str == '0' && str[1] && ft_strchr("xXbB", str[1]) && SPEC != 's')
 	{
 		printf_putchar(*str, p->fd, &p->result);
 		printf_putchar(str[1], p->fd, &p->result);

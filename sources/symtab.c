@@ -35,12 +35,12 @@ void save_symbol(t_bin* cmd, t_bin *bin, t_list **syms)
 	char *str;
 	size_t i;
 
-	if (!dump_data(&sc, cmd, sizeof(struct symtab_command)))
+	if (!dump_data(&sc, cmd, DESCRIPTION(SYMTAB_COMMAND_D)))
 		return ;
 	i = 0;
 	while (i < sc->nsyms)
 	{
-		if (!get_data(&nl, bin, sizeof(struct nlist), sc->symoff + i * sizeof(struct nlist)))
+		if (!get_data(&nl, bin, DESCRIPTION(NLIST_D), sc->symoff + i * sizeof(struct nlist)))
 			return ;
 //		str = (void*)bin->begin + sc->stroff + nl->n_un.n_strx;
 		if (get_str(&str, bin, sc->stroff + nl->n_un.n_strx)) 
@@ -57,13 +57,12 @@ void save_symbol_64(t_bin* cmd, t_bin *bin, t_list **syms)
 	char *str;
 	size_t i;
 
-	if (!dump_data(&sc, cmd, sizeof(struct symtab_command)))
+	if (!dump_data(&sc, cmd, DESCRIPTION(SYMTAB_COMMAND_D)))
 		return ;
 	i = 0;
 	while (i < sc->nsyms)
 	{
-//		ft_printf("display symbol\n");
-		if (!get_data(&nl, bin, sizeof(struct nlist_64), sc->symoff + i * sizeof(struct nlist_64)))
+		if (!get_data(&nl, bin, DESCRIPTION(NLIST_64_D), sc->symoff + i * sizeof(struct nlist_64)))
 			return ;
 //		str = (void*)bin->begin + sc->stroff + nl->n_un.n_strx;
 		if (get_str(&str, bin, sc->stroff + nl->n_un.n_strx)) 
