@@ -76,7 +76,7 @@ t_list *save_commands(t_bin* bin, size_t size)
 		tmp = ft_lstnew_noalloc(sub, sizeof(t_bin));
 		ft_lstadd_end(&result, tmp);
 		i += lc->cmdsize;
-		dump_data(NULL, bin, (size_t[]){lc->cmdsize, 0});
+		dump_data(NULL, bin, DESCRIPTION(lc->cmdsize));
 	}
 	return result;
 }

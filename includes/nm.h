@@ -10,7 +10,7 @@
 # include "libft.h"
 # define BYTE unsigned char
 
-# define DESCRIPTION(X) (size_t[]){X}
+# define DESCRIPTION(X) (size_t[]){X, 0}
 # define SEGMENT_COMMAND_64_D \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
@@ -22,8 +22,7 @@
   sizeof(vm_prot_t), \
   sizeof(vm_prot_t), \
   sizeof(uint32_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define SEGMENT_COMMAND_D \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
@@ -35,8 +34,7 @@
   sizeof(vm_prot_t), \
   sizeof(vm_prot_t), \
   sizeof(uint32_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define SECTION_D \
   sizeof(char) * 16, \
   sizeof(char) * 16, \
@@ -48,8 +46,7 @@
   sizeof(uint32_t), \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define SECTION_64_D \
   sizeof(char), \
   sizeof(char), \
@@ -62,23 +59,19 @@
   sizeof(uint32_t), \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define LOAD_COMMAND_D \
   sizeof(uint32_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define FAT_HEADER_D \
   sizeof(uint32_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define FAT_ARCH_D \
   sizeof(cpu_type_t), \
   sizeof(cpu_subtype_t), \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define MACH_HEADER_D \
   sizeof(uint32_t), \
   sizeof(cpu_type_t), \
@@ -86,8 +79,7 @@
   sizeof(uint32_t), \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define MACH_HEADER_64_D \
   sizeof(uint32_t), \
   sizeof(cpu_type_t), \
@@ -96,30 +88,48 @@
   sizeof(uint32_t), \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define SYMTAB_COMMAND_D \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
   sizeof(uint32_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define NLIST_D \
   sizeof(char*), \
   sizeof(uint8_t), \
   sizeof(uint8_t), \
   sizeof(int16_t), \
-  sizeof(uint32_t), \
-  0
+  sizeof(uint32_t)
 # define NLIST_64_D \
   sizeof(uint32_t), \
   sizeof(uint8_t), \
   sizeof(uint8_t), \
   sizeof(uint16_t), \
-  sizeof(uint64_t), \
-  0
+  sizeof(uint64_t)
+# define AR_HEADER_D \
+  16, \
+  12, \
+  6, \
+  6, \
+  8, \
+  10, \
+  2
+
+# define ARCHIVE_MAGIC "!<arch>\n"
+
+
+typedef struct	s_ar_header
+{
+	BYTE		id[16];
+	BYTE		timestamp[12];
+	BYTE		owner[6];
+	BYTE		group[6];
+	BYTE		mode[8];
+	BYTE		size[10];
+	BYTE		end[2];
+}				t_ar_header;
 
 
 typedef struct	s_bin
@@ -175,5 +185,7 @@ int magic_start(t_bin *bin);
 int	is_fat(t_bin* bin);
 void reverse_byte(void *ad, size_t size);
 t_bin *sub_bin_from_offset(t_bin *bin, size_t len, size_t offset);
+int is_archive(t_bin *bin);
+int get_ar_size(t_ar_header *header);
 
 #endif
