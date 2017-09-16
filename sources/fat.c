@@ -57,6 +57,7 @@ int	is_fat(t_bin* bin)
 	list = NULL;
 	if (!save_fat(bin, &list))
 		return 0;
+	ft_printf("#RIS FAT#N\n");
 	r = magic_start((t_bin*)list->content);
 	ft_lstfree(&list);
 	return r;

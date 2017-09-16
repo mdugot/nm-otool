@@ -16,7 +16,7 @@ void display_symbol(t_usym *sym, t_list *section, int cpu)
 	if (is_debugging(sym->type))
 		return ;
 	display_value(sym->value, sym->sect, cpu);
-	display_type(sym->type, sym->sect, section);
+	display_type(sym->type, sym->sect, section, sym->value);
 	ft_printf("%s\n", sym->str);
 }
 

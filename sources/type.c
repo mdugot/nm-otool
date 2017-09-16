@@ -7,7 +7,7 @@ void print_type_letter(char c, BYTE ext)
 	ft_printf("%c ", c);
 }
 
-void display_type(BYTE n_type, BYTE n_sect, t_list *section)
+void display_type(BYTE n_type, BYTE n_sect, t_list *section, uint64_t n_value)
 {
 	BYTE stab;
 	BYTE pext;
@@ -22,12 +22,23 @@ void display_type(BYTE n_type, BYTE n_sect, t_list *section)
 //	ft_printf("type %#hhx sect %#hhx\n", n_type, n_sect);
 //	ft_printf("STAB %#hhx PEXT %#hhx TYPE %#hhx EXT %#hhx\n", stab, pext, type, ext);
 	
-	if ((type & N_TYPE) == N_ABS)
+	if (stab)
+		print_type_letter('-', ext);
+	else if ((type & N_TYPE) == N_ABS)
 		print_type_letter('a', ext);
+	else if ((type & N_TYPE) == N_PBUD)
+		print_type_letter('u', ext);
+	else if ((type & N_TYPE) == N_INDR)
+		print_type_letter('i', ext);
 	else if ((type & N_TYPE) == N_SECT)
 		print_section(n_sect, ext, section);
 	else if ((type & N_TYPE) == N_UNDF)
-		print_type_letter('u', ext);
+	{
+		if (n_value != 0)
+			print_type_letter('c', ext);
+		else
+			print_type_letter('u', ext);
+	}
 	else
 		print_type_letter('?', ext);
 	

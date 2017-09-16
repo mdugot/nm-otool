@@ -30,6 +30,8 @@ void save_segment_64(t_bin *bin, struct load_command *lc, t_list **result)
 		tmp = ft_lstnew_noalloc(new_usection(sect, 64), sizeof(t_usection));
 		ft_lstadd_end(result, tmp);
 		i++;
+//		ft_printf("section name : %s\n", sect->sectname);
+//		ft_printf("segment name : %s\n", sect->segname);
 	}
 }
 

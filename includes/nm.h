@@ -48,8 +48,8 @@
   sizeof(uint32_t), \
   sizeof(uint32_t)
 # define SECTION_64_D \
-  sizeof(char), \
-  sizeof(char), \
+  sizeof(char) * 16, \
+  sizeof(char) * 16, \
   sizeof(uint64_t), \
   sizeof(uint64_t), \
   sizeof(uint32_t), \
@@ -172,7 +172,7 @@ void rewind_bin(t_bin *bin, size_t len);
 int get_data(void *ad, t_bin *bin, size_t *s, size_t offset);
 int dump_data(void *ad, t_bin *bin, size_t *s);
 int get_str(void *ad, t_bin *bin, size_t offset);
-void display_type(BYTE type, BYTE n_sect, t_list *section);
+void display_type(BYTE type, BYTE n_sect, t_list *section, uint64_t n_value);
 t_list *save_usections(t_list *cmd);
 t_list *save_commands(t_bin* bin, size_t size);
 t_bin *sub_bin(t_bin *bin, size_t len);

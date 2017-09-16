@@ -76,8 +76,8 @@ int is_archive(t_bin *bin)
 		return 0;
 	if (!dump_data(NULL, bin, DESCRIPTION(ft_strlen(ARCHIVE_MAGIC))))
 		return 0;
-//	if (!save_first(bin))
-//		return 0;
+	if (!save_first(bin))
+		return 0;
 	return save_archive(bin);
 }
 
