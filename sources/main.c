@@ -21,6 +21,7 @@ int main(int argc, char **argv)
 	int result;
 
 	result = 0;
+	ft_printf("target : %s\n", TARGET);
 	if (argc < 2)
 	{
 		display_name_list("a.out", &result);

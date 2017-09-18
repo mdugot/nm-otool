@@ -17,7 +17,10 @@ int is_macho_32(t_bin *bin)
 			return 0;
 		sections = save_usections(cmds);
 		syms = save_all_symbol(cmds, 32, bin);
-		display_all(syms, sections, 32);
+		if (!ft_strcmp(NM, TARGET))
+			display_all(syms, sections, 32);
+		if (!ft_strcmp(OTOOL, TARGET))
+			otool(sections, bin);
 		ft_lstfree(&cmds);
 		ft_lstfree(&sections);
 		ft_lstfree(&syms);
@@ -45,7 +48,10 @@ int is_macho_64(t_bin *bin)
 			return 0;
 		sections = save_usections(cmds);
 		syms = save_all_symbol(cmds, 64, bin);
-		display_all(syms, sections, 64);
+		if (!ft_strcmp(NM, TARGET))
+			display_all(syms, sections, 64);
+		if (!ft_strcmp(OTOOL, TARGET))
+			otool(sections, bin);
 		ft_lstfree(&cmds);
 		ft_lstfree(&sections);
 		ft_lstfree(&syms);

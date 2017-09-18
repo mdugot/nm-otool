@@ -10,6 +10,11 @@
 # include "libft.h"
 # define BYTE unsigned char
 
+#define NM "nm"
+#define OTOOL "otool"
+
+# define MACHINE_CPU CPU_TYPE_X86_64
+
 # define DESCRIPTION(X) (size_t[]){X, 0}
 # define SEGMENT_COMMAND_64_D \
   sizeof(uint32_t), \
@@ -187,5 +192,9 @@ void reverse_byte(void *ad, size_t size);
 t_bin *sub_bin_from_offset(t_bin *bin, size_t len, size_t offset);
 int is_archive(t_bin *bin);
 int get_ar_size(t_ar_header *header);
+t_bin *get_origin(t_bin* bin);
+void	otool(t_list *section, t_bin *bin);
+char* segment_name(t_usection *section);
+char* section_name(t_usection *section);
 
 #endif

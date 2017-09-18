@@ -58,3 +58,10 @@ int magic_start(t_bin *bin)
 		return 1;
 	return 0;
 }
+
+t_bin *get_origin(t_bin* bin)
+{
+	if (bin->from == NULL)
+		return bin;
+	return get_origin(bin->from);
+}
