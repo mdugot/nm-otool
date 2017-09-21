@@ -1,44 +1,40 @@
 #include "nm.h"
 
-int get_len(t_bin *bin)
-{
-	struct stat st;
-	if (fstat(bin->fd, &st) < 0)
-		return 0;
-	bin->len = st.st_size;
-	return 1;
-}
-
 int open_binary(char *filename, t_bin *bin)
 {
+	struct stat st;
+
 	bin->filename = filename;
 	bin->from = NULL;
 	bin->cputype = 0;
 	bin->cpusubtype = 0;
 	bin->reverse_endian = 0;
 	bin->fd = open(filename, O_RDONLY);
-	if (bin->fd < 0)
+	if (bin->fd < 0 || fstat(bin->fd, &st) < 0)
 	{
-		ft_printf_fd(2, "can not open '%s'\n", filename);
+		check_errno(filename);
 		return 0;
 	}
-	if (!get_len(bin))
-	{
-		ft_printf_fd(2, "can not get stats of '%s'\n", filename);
+	if (!check_file_stat(bin, &st))
 		return 0;
-	}
 	if ((bin->begin = mmap(0, bin->len, PROT_READ, MAP_PRIVATE, bin->fd, 0)) == MAP_FAILED ||
 		(bin->mirror = mmap(0, bin->len, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0)) == MAP_FAILED)
 	{
-		ft_printf_fd(2, "memory map of file '%s' failed\n", filename);
+		print_error(filename,
+			"can't map file",
+			"can't map file",
+			"mmap failed");
 		return 0;
 	}
+	bin->len = st.st_size;
 	bin->cursor = 0;
 	return 1;
 }
 
 void close_binary(t_bin *bin)
 {
+	if (bin->fd > 0)
+		close(bin->fd);
 	munmap(bin->begin, bin->len);
 	munmap(bin->mirror, bin->len);
 }
@@ -111,6 +107,20 @@ int get_str(void *ad, t_bin *bin, size_t offset)
 		if (offset + i >= bin->len)
 			return 0;
 	}
+	return 1;
+}
+
+int get_bytes(void *ad, t_bin *bin, size_t *s, size_t offset)
+{
+	void **dest;
+	size_t len;
+
+	len = total_len(s);
+	dest = ad;
+	if (!len || len + offset >bin->len)
+		return 0;
+	if (ad)
+		*dest = (void*)(bin->begin + offset);
 	return 1;
 }
 

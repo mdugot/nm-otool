@@ -7,6 +7,7 @@
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
 # include <mach-o/fat.h>
+# include <errno.h>
 # include "libft.h"
 # define BYTE unsigned char
 
@@ -196,5 +197,10 @@ t_bin *get_origin(t_bin* bin);
 void	otool(t_list *section, t_bin *bin);
 char* segment_name(t_usection *section);
 char* section_name(t_usection *section);
+int get_bytes(void *ad, t_bin *bin, size_t *s, size_t offset);
+int	f_argc(int v);
+void print_error(char *filename, char *nm_str, char *o1, char *o2);
+int check_file_stat(t_bin *bin, struct stat *st);
+void check_errno(char *filename);
 
 #endif

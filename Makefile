@@ -3,7 +3,8 @@ OTOOL=ft_otool
 CC= gcc
 CFLAGS= -Wall -Werror -Wextra
 SRC_NAME= main.c macho.c magic.c binary.c command.c symtab.c\
-          type.c section.c display.c fat.c lib.c otool.c
+          type.c section.c display.c fat.c lib.c otool.c \
+		  settings.c error.c
 SRC_PATH= ./sources/
 INC_PATH= ./includes/
 LIB_NAME= libft.a
@@ -27,14 +28,14 @@ all:
 
 .PHONY: define_otool
 define_otool:
-	@echo DEFINE OTOOL
+	@echo define otool
 	$(eval DEFINE_TARGET := $(DEFINE_OTOOL))
 	$(eval OBJ_PATH := $(OTOOL_OBJ_PATH))
 	$(eval OBJ := $(OTOOL_OBJ))
 
 .PHONY: define_nm
 define_nm:
-	@echo DEFINE NM
+	@echo define nm
 	$(eval DEFINE_TARGET := $(DEFINE_NM))
 	$(eval OBJ_PATH := $(NM_OBJ_PATH))
 	$(eval OBJ := $(NM_OBJ))

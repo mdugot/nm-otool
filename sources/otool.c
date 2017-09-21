@@ -73,7 +73,7 @@ void	display_text(t_usection *section, t_bin *bin)
 	ft_printf("(__TEXT,__text) section\n");
 	size = get_section_size(section);
 	begin = get_section_adress(section);
-	if (!get_data(&ad, bin, DESCRIPTION(size), get_section_offset(section)))
+	if (!get_bytes(&ad, bin, DESCRIPTION(size), get_section_offset(section)))
 		return ;
 //	ft_printf("addr : %0*llx\n", w, get_section_adress(section));
 //	ft_printf("offset : %0*x\n", w, get_section_offset(section));
